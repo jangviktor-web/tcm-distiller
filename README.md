@@ -1,7 +1,7 @@
 <div align="center">
 <img width="120" height="120" alt="1000196472" src="https://github.com/user-attachments/assets/b8501663-7c7e-42cf-a8e7-59019420d779" />
 
-# 🏭 中医思维蒸馏器 · TCM-Distiller
+# 中医思维蒸馏器 · TCM-Distiller
 
 **将任意中医师的思维体系蒸馏为可被 AI 调用的技能（Skill）**
 
