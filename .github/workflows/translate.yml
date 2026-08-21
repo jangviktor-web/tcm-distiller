@@ -1,0 +1,22 @@
+name: Auto Translate README
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  translate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+
+      - name: Translate readme to English
+        uses: ikhsan3adi/markdown-translator@v3
+        with:
+          LANG: en
+          FILES: README.md
+          COMMIT: true
+          PUSH: false
+          PULL_REQUEST: true

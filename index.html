@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>中医思维蒸馏器 · TCM-Distiller</title>
+<meta name="description" content="将任意中医师的思维体系蒸馏为可被 AI 调用的技能 —— 15 维度蒸馏体系 + 12 个质量保障模块">
+<style>
+:root{--bg:#0d1117;--card:#161b22;--border:#30363d;--txt:#e6edf3;--sub:#8b949e;--acc:#f0883e;--acc2:#58a6ff;--green:#3fb950;--red:#f85149}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:var(--txt);font-family:-apple-system,"PingFang SC","Microsoft YaHei",system-ui,sans-serif;line-height:1.7;overflow-x:hidden}
+.wrap{max-width:1100px;margin:0 auto;padding:0 20px}
+/* Hero */
+.hero{min-height:92vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;position:relative;padding:60px 20px;background:radial-gradient(ellipse at 50% 0%,rgba(240,136,62,.12),transparent 60%)}
+.hero .logo{font-size:5rem;margin-bottom:8px;filter:drop-shadow(0 0 30px rgba(240,136,62,.4));animation:float 4s ease-in-out infinite}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+.hero h1{font-size:clamp(2.2rem,5vw,3.5rem);font-weight:800;letter-spacing:2px;background:linear-gradient(135deg,var(--acc),var(--acc2));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.hero .sub{font-size:clamp(1rem,2vw,1.25rem);color:var(--sub);margin-top:14px;max-width:640px}
+.hero .quote{margin-top:30px;padding:16px 28px;background:var(--card);border:1px solid var(--border);border-radius:12px;font-style:italic;color:var(--sub);max-width:560px}
+.badges{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:30px}
+.badge{padding:6px 16px;border-radius:20px;font-size:.8rem;background:var(--card);border:1px solid var(--border);color:var(--sub)}
+.badge b{color:var(--acc)}
+.cta{margin-top:36px;display:flex;gap:14px;flex-wrap:wrap;justify-content:center}
+.btn{padding:12px 32px;border-radius:8px;font-size:1rem;text-decoration:none;transition:all .25s;border:1px solid var(--border)}
+.btn.primary{background:linear-gradient(135deg,var(--acc),#d05f1f);color:#fff;border:none;box-shadow:0 4px 20px rgba(240,136,62,.3)}
+.btn.primary:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(240,136,62,.5)}
+.btn.ghost{color:var(--txt);background:var(--card)}
+.btn.ghost:hover{border-color:var(--acc2)}
+/* Sections */
+section{padding:70px 0}
+section h2{font-size:1.8rem;font-weight:700;margin-bottom:30px;display:flex;align-items:center;gap:12px}
+section h2 .num{width:40px;height:40px;border-radius:10px;background:linear-gradient(135deg,var(--acc),var(--acc2));display:flex;align-items:center;justify-content:center;font-size:1.1rem;color:#fff}
+/* Capabilities */
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:18px}
+.card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:24px;transition:all .3s}
+.card:hover{border-color:var(--acc);transform:translateY(-4px);box-shadow:0 8px 30px rgba(0,0,0,.4)}
+.card .ic{font-size:2rem;margin-bottom:12px}
+.card h3{font-size:1.1rem;margin-bottom:8px}
+.card p{color:var(--sub);font-size:.9rem}
+.card .tag{display:inline-block;margin-top:12px;font-size:.72rem;padding:3px 10px;border-radius:20px;background:rgba(88,166,255,.1);color:var(--acc2);border:1px solid rgba(88,166,255,.3)}
+/* Pipeline */
+.pipeline{display:flex;flex-direction:column;gap:8px;background:var(--card);border:1px solid var(--border);border-radius:14px;padding:24px}
+.flow{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.node{padding:10px 18px;border-radius:8px;background:rgba(88,166,255,.08);border:1px solid rgba(88,166,255,.25);font-size:.85rem;color:var(--txt)}
+.node.hot{background:rgba(240,136,62,.12);border-color:rgba(240,136,62,.4);color:var(--acc)}
+.arrow{color:var(--sub)}
+/* Stats */
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:16px}
+.stat{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:24px;text-align:center}
+.stat .n{font-size:2.2rem;font-weight:800;color:var(--acc)}
+.stat .l{color:var(--sub);font-size:.85rem;margin-top:6px}
+/* Terminal */
+.term{background:#0d1117;border:1px solid var(--border);border-radius:14px;overflow:hidden;box-shadow:0 8px 40px rgba(0,0,0,.5)}
+.term .bar{background:var(--card);padding:10px 16px;display:flex;gap:8px;align-items:center;border-bottom:1px solid var(--border)}
+.term .dot{width:12px;height:12px;border-radius:50%}
+.term .dot.r{background:var(--red)}.term .dot.y{background:#d29922}.term .dot.g{background:var(--green)}
+.term .title{color:var(--sub);font-size:.8rem;margin-left:8px}
+.term pre{padding:20px;font-size:.85rem;overflow-x:auto;color:#c9d1d9}
+.term .c{color:var(--acc)}.term .p{color:var(--green)}.term .s{color:var(--sub)}
+/* Versions */
+table{width:100%;border-collapse:collapse;background:var(--card);border-radius:14px;overflow:hidden;border:1px solid var(--border)}
+th,td{padding:14px 18px;text-align:left;border-bottom:1px solid var(--border);font-size:.9rem}
+th{background:rgba(240,136,62,.08);color:var(--acc);font-weight:600}
+tr:hover td{background:rgba(88,166,255,.05)}
+td.v{color:var(--acc2);font-weight:700;white-space:nowrap}
+/* Footer */
+footer{padding:50px 20px;text-align:center;color:var(--sub);border-top:1px solid var(--border);font-size:.85rem}
+footer a{color:var(--acc2);text-decoration:none}
+@media(max-width:640px){.flow{flex-direction:column;align-items:flex-start}.hero{padding:40px 16px}}
+</style>
+</head>
+<body>
+
+<!-- ============ HERO ============ -->
+<div class="hero">
+  <div class="logo">🏭</div>
+  <h1>中医思维蒸馏器</h1>
+  <div class="sub">将任意中医师的著作、讲稿、医案，蒸馏为可被 AI 调用的思维技能<br><b style="color:var(--acc)">不产出某一位中医</b>，而是产出<b style="color:var(--acc2)">能产出任何中医</b>的流水线</div>
+  <div class="quote">「授人以鱼，不如授人以渔」——十五个维度还原一个人的思维，十二个模块保证还原的忠实。</div>
+  <div class="badges">
+    <span class="badge">版本 <b>V4.4d</b></span>
+    <span class="badge">维度 <b>15</b> 蒸馏体系</span>
+    <span class="badge">模块 <b>S1-S12</b> 质量保障</span>
+    <span class="badge">实战 <b>4</b> 位医家</span>
+    <span class="badge">引用 <b>174</b> 条 0 失效</span>
+  </div>
+  <div class="cta">
+    <a class="btn primary" href="#quickstart">🚀 快速开始</a>
+    <a class="btn ghost" href="#capabilities">✨ 核心能力</a>
+    <a class="btn ghost" href="#versions">📖 版本历史</a>
+  </div>
+</div>
+
+<!-- ============ STATS ============ -->
+<section>
+  <div class="wrap">
+    <div class="stats">
+      <div class="stat"><div class="n">15</div><div class="l">蒸馏维度（心智模型→表达DNA→临床安全）</div></div>
+      <div class="stat"><div class="n">12</div><div class="l">质量保障模块（S1-S12）</div></div>
+      <div class="stat"><div class="n">258</div><div class="l">方剂剂量勘误（倪海厦实战）</div></div>
+      <div class="stat"><div class="n">9胜1平</div><div class="l">表达还原度盲评（20 题长答）</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CAPABILITIES ============ -->
+<section id="capabilities" style="background:rgba(22,27,34,.5)">
+  <div class="wrap">
+    <h2><span class="num">01</span> 核心能力</h2>
+    <div class="cards">
+      <div class="card"><div class="ic">🧠</div><h3>15 维度蒸馏体系</h3><p>核心心智模型 / 决策启发式 / 方证体系 / 表达 DNA / 反模式 / 剂量思维 / 内在张力 / 智识谱系 / 临床安全层……</p><span class="tag">人物思维全息还原</span></div>
+      <div class="card"><div class="ic">⚖️</div><h3>剂量三体系换算</h3><p>考古考证（理解原方规模）+ 台湾临床 + 临床直换铁律（古方一两=临床一钱）——杜绝 AI 测试误判</p><span class="tag">S9</span></div>
+      <div class="card"><div class="ic">🔬</div><h3>剂量勘误工作流</h3><p>258 方逐方对照源文件：清单→提取→二次检测→P0-P3 分级修复→汇总报告</p><span class="tag">S7</span></div>
+      <div class="card"><div class="ic">🎭</div><h3>表达还原度验证</h3><p>20 题长答盲评 + 六维质地差距检查（问诊互动/故事/调侃/批判强度/口头禅/冗余）+ 修复 7 技法</p><span class="tag">S11</span></div>
+      <div class="card"><div class="ic">🛡️</div><h3>诚实标注规范</h3><p>无法核对/来源边界/转录矛盾/知识缺口显性化——宁可标注缺口，不可编造填补</p><span class="tag">S10</span></div>
+      <div class="card"><div class="ic">🧹</div><h3>档案清理与索引维护</h3><p>权威 vs 档案分级 + 档案体检五步 + 删除后索引健康四步法（174 引用 0 失效）</p><span class="tag">S12</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PIPELINE ============ -->
+<section>
+  <div class="wrap">
+    <h2><span class="num">02</span> 蒸馏流水线</h2>
+    <div class="pipeline">
+      <div style="color:var(--acc);font-weight:600;margin-bottom:6px">Pipeline A · 新蒸馏（人 → skill）</div>
+      <div class="flow">
+        <span class="node">Phase 0 入口分流</span><span class="arrow">→</span>
+        <span class="node hot">Phase 1 十维并行调研</span><span class="arrow">→</span>
+        <span class="node">Phase 2 框架合成+注册</span><span class="arrow">→</span>
+        <span class="node">Phase 3 质量验证</span><span class="arrow">→</span>
+        <span class="node">Phase 4 增量补充</span><span class="arrow">→</span>
+        <span class="node hot">Phase 5 交付</span>
+      </div>
+      <div style="color:var(--acc);font-weight:600;margin:20px 0 6px">Pipeline B · 增量优化（skill → 更好 skill）</div>
+      <div class="flow">
+        <span class="node">B0 差距分析</span><span class="arrow">→</span>
+        <span class="node">B1 15 维对标</span><span class="arrow">→</span>
+        <span class="node hot">B2 并行调研</span><span class="arrow">→</span>
+        <span class="node">B3 定向增强</span><span class="arrow">→</span>
+        <span class="node">B4 素材落盘</span><span class="arrow">→</span>
+        <span class="node hot">B5 复测棘轮</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ TERMINAL ============ -->
+<section id="quickstart" style="background:rgba(22,27,34,.5)">
+  <div class="wrap">
+    <h2><span class="num">03</span> 快速开始</h2>
+    <div class="term">
+      <div class="bar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="title">终端 · 蒸馏一次完整的人物思维</span></div>
+<pre><span class="c"># 一句话触发蒸馏</span>
+<span class="p">你</span>：蒸馏胡希恕
+<span class="p">蒸馏器</span>：已识别目标（经方派·胡希恕），开始 Phase 0 入口分流……
+
+<span class="c"># Phase 1：10 个并行子 Agent 分头调研</span>
+<span class="p">✓</span> Agent 1 核心心智模型    <span class="p">✓</span> Agent 2 决策启发式
+<span class="p">✓</span> Agent 2b 方证体系       <span class="p">✓</span> Agent 3 表达 DNA
+<span class="p">✓</span> Agent 9 临床安全层      <span class="p">✓</span> Agent 10 剂量思维……
+
+<span class="c"># Phase 3：质量验证（15 维度覆盖率）</span>
+<span class="p">→</span> 15 维度覆盖率：<span class="s">100% 标杆级</span>
+<span class="p">→</span> 索引健康：<span class="s">174 条引用 0 失效</span>
+
+<span class="c"># Phase 4：剂量勘误（S7）</span>
+<span class="p">→</span> 258 方逐方对照源文件：<span class="s">合格 233 / 修复 30+</span>
+
+<span class="c"># Phase 5：交付</span>
+<span class="p">→</span> 技能已注册，表达还原度盲评 <span class="s">9 胜 1 平 0 败</span> 🎉</pre>
+    </div>
+  </div>
+</section>
+
+<!-- ============ VERSIONS ============ -->
+<section id="versions">
+  <div class="wrap">
+    <h2><span class="num">04</span> 版本演进</h2>
+    <table>
+      <tr><th>版本</th><th>日期</th><th>里程碑</th></tr>
+      <tr><td class="v">V4.4d</td><td>2026-08-15</td><td>档案清理与索引健康维护（S12）——权威 vs 档案分级 + 删除后索引四步验证</td></tr>
+      <tr><td class="v">V4.4</td><td>2026-08-14</td><td>表达还原度方法论——三件套落地法 + 实测盲评铁律</td></tr>
+      <tr><td class="v">V4.3</td><td>2026-08-14</td><td>S11 表达还原度验证——20 题长答盲评 + A/B 双版本盲评法</td></tr>
+      <tr><td class="v">V4.2</td><td>2026-08-14</td><td>错误码速查表 + 编码统一 + 发布渠道 + 四层结构心智模型</td></tr>
+      <tr><td class="v">V4.1</td><td>2026-08-14</td><td>注册路径修正 + 跨流派对话测试 + 语气量化评估</td></tr>
+      <tr><td class="v">V4.0</td><td>2026-08-13</td><td>S7 剂量勘误 / S8 版本差异 / S9 三体系换算 / S10 诚实标注</td></tr>
+      <tr><td class="v">V3.6</td><td>2026-08-13</td><td>索引引用规范化 + 关键词验证脚本</td></tr>
+      <tr><td class="v">V3.5</td><td>2026-08-09</td><td>端到端蒸馏完成（吴鞠通全流程验证）</td></tr>
+      <tr><td class="v">V1-2.x</td><td>2026-08-04~09</td><td>胡希恕首发验证 / 黄元御深度案例 / 9 维评分 79.5→84.3</td></tr>
+    </table>
+    <p style="color:var(--sub);font-size:.85rem;margin-top:16px">完整更新日志见 <a href="CHANGELOG.md" style="color:var(--acc2)">CHANGELOG.md</a>（V1.0 → V4.4d 全量记录）</p>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer>
+  <p>🏭 中医思维蒸馏器 · TCM-Distiller — 为中医思维传承而生</p>
+  <p style="margin-top:8px">教育用途 · 不构成医疗建议 · <a href="README.md">README</a> · <a href="CHANGELOG.md">更新日志</a></p>
+  <p style="margin-top:16px;font-size:.75rem;opacity:.6">Made with ❤️ for the TCM community</p>
+</footer>
+
+</body>
+</html>
